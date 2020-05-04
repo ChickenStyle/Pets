@@ -28,7 +28,7 @@ import com.google.gson.reflect.TypeToken;
 public class Main extends JavaPlugin implements Listener {
 	public static HashMap<UUID, ValidPet> spawnedPet = new HashMap<>();
 	public static HashMap<UUID,Integer> taskID = new HashMap<>();
-	public static HashMap<UUID,ArmorStand> Stands = new HashMap<>();
+	public static HashMap<UUID,ArmorStand> stands = new HashMap<>();
 	public static HashMap<UUID, ArrayList<ValidPet>> petsInv;
 
 	@Override
@@ -72,6 +72,8 @@ public class Main extends JavaPlugin implements Listener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		
 	}
 
 	public static Main getInstance() {

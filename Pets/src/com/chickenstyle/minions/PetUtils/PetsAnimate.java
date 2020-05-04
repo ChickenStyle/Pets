@@ -15,14 +15,22 @@ public class PetsAnimate extends BukkitRunnable {
 
 	
 	public PetsAnimate(Player player,ItemStack head) {
-		stand = player.getWorld().spawn(player.getLocation().clone(), ArmorStand.class);
+		Location Standloc = player.getLocation().clone();
+
+		final float newX = (float)(Standloc.getX() + (-0.9 * Math.cos(Math.toRadians(Standloc.getYaw() + 90 * 0))));
+		final float newY = (float) (Standloc.getY() + 1);
+		final float newZ = (float)(Standloc.getZ() + (-0.9 * Math.sin(Math.toRadians(Standloc.getYaw() + 90 * 0))));
+		Standloc.setX(newX);
+		Standloc.setY(newY);
+		Standloc.setZ(newZ);
+		stand = player.getWorld().spawn(Standloc, ArmorStand.class);
 		stand.setGravity(false);
 		stand.setSmall(true);
 		stand.setInvulnerable(true);
 		stand.setVisible(false);
 		stand.setHelmet(head);
 		this.player = player;
-		Main.Stands.put(player.getUniqueId(), stand);
+		Main.stands.put(player.getUniqueId(), stand);
 	}
 	
 	@Override
