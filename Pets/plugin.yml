@@ -1,0 +1,9 @@
+name: Minions
+version: 1.0
+author: ChickenStyle
+main: com.chickenstyle.minions.Main
+api-version: 1.15
+commands:
+  pets:
+    description: pets command!
+
