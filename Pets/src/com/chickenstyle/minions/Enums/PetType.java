@@ -1,13 +1,13 @@
 package com.chickenstyle.minions.Enums;
 
-public enum Pets {
+public enum PetType {
 	WITHER_SKELETON_KING(false,"&8&lWither Skeleton King",Tier.LEGENDARY, "68c0165e9b2dbd78dac91277e97d9a02648f3059e126a5941a84d05429ce"),
 	FIRE_DEMON(true,"&4&lFire Demon",Tier.LEGENDARY, "4903221124e1a27402276c3e0176bc9f63238d7ea7713e9b579a878daca24819"),
 	VAMPIRE(false,"&4&lVampire",Tier.LEGENDARY, "8d44756e0b4ece8d746296a3d5e297e1415f4ba17647ffe228385383d161a9"),
 	RAINBOW_PEPE(false,"&c&lR&6&la&a&li&b&ln&9&lb&d&lo&c&lw &6&lP&a&le&b&lp&9&le",Tier.LEGENDARY, "1e42ce5a8033247572b7603a7989455006c807f29a58233a0d9afdb5a46365a2"),
 	REAPER(true,"&7&lReaper",Tier.LEGENDARY, "9998a226568d45faf77785890564a897aa58d151a5303989732d9f5ea0aae6c3"),
 	PIKACHU(true,"&e&lPikachu",Tier.EPIC, "dfa695b59618b3616b6aaa910c5a10146195edd6367d25e9399a74ceef966"),
-	WITHER(true,"&8&lWither",Tier.EPIC, "7953b6c68448e7e6b6bf8fb273d7203acd8e1be19e81481ead51f45de59a8"),
+	WITHER_SKELETON(true,"&8&lWither",Tier.EPIC, "7953b6c68448e7e6b6bf8fb273d7203acd8e1be19e81481ead51f45de59a8"),
 	MYSTERY_MAGMA_SLIME(true,"&c&lMystery Magma Slime",Tier.EPIC, "61bcde8f0edc02dd77e2cead48780026bd11c1db02f07af967956d468ee5d0e8"),
 	GODZILLA(true,"&8&lGodzilla",Tier.RARE, "e3a5565ecf1097ffd3533165729a07f903a3e8b6d4a3021cbfda14c1aed67a50"),
 	SILVERFISH(true,"&7&lSilverfish",Tier.RARE, "92ec2c3cb95ab77f7a60fb4d160bced4b879329b62663d7a9860642e588ab210"),
@@ -24,12 +24,14 @@ public enum Pets {
 	private String name;
 	private Tier tier;
 	private String skin;
+
 	
-	private Pets(boolean upgradable, String name,Tier tier,String skin) {
+	private PetType(boolean upgradable, String name,Tier tier,String skin) {
 		this.upgradable = upgradable;
 		this.name = name;
 		this.tier = tier;
 		this.skin = skin;
+
 	}
 	
 	public String getSkin() {
@@ -48,7 +50,6 @@ public enum Pets {
 		return name;
 	}
 	
-
 	
 }
 	

@@ -19,9 +19,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.chickenstyle.minions.Abilities.OnAttackAbilities;
+import com.chickenstyle.minions.Abilities.OnPetDespawn;
 import com.chickenstyle.minions.Abilities.OnPetSpawn;
-import com.chickenstyle.minions.Enums.Pets;
+import com.chickenstyle.minions.Enums.Tier;
 import com.chickenstyle.minions.Events.GuiClickEvent;
+import com.chickenstyle.minions.Events.OnDeathEvent;
+import com.chickenstyle.minions.Events.OpenCrateEvent;
+import com.chickenstyle.minions.Events.RightClickEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,9 +39,15 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable() {
 		// Listeners
 		Bukkit.getPluginManager().registerEvents(this, this);
+		Bukkit.getPluginManager().registerEvents(new GuiClickEvent(), this);
+		Bukkit.getPluginManager().registerEvents(new RightClickEvent(),this);
+		Bukkit.getPluginManager().registerEvents(new OpenCrateEvent(),this);
+		Bukkit.getPluginManager().registerEvents(new OnDeathEvent(), this);
 		Bukkit.getPluginManager().registerEvents(new OnAttackAbilities(), this);
 		Bukkit.getPluginManager().registerEvents(new OnPetSpawn(), this);
-		Bukkit.getPluginManager().registerEvents(new GuiClickEvent(), this);
+		Bukkit.getPluginManager().registerEvents(new OnPetDespawn(), this);
+		
+		
 		// Default Config
 		this.getConfig().options().copyDefaults();
 		saveDefaultConfig();
@@ -73,7 +83,16 @@ public class Main extends JavaPlugin implements Listener {
 			e.printStackTrace();
 		}
 
-		
+		if (!taskID.isEmpty()) {
+			for (int id:taskID.values()) {
+				Bukkit.getScheduler().cancelTask(id);
+			}
+		}
+		if (!stands.isEmpty()) {
+			for (ArmorStand stand:stands.values()) {
+				stand.remove();
+			}
+		}
 	}
 
 	public static Main getInstance() {
@@ -83,13 +102,17 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		UUID player = e.getPlayer().getUniqueId();
+		e.getPlayer().getInventory().addItem(Utils.createCustomSkull(Utils.Color(getConfig().getString("legendaryCrateName")), Tier.LEGENDARY.getTexture()));
 		if (!petsInv.containsKey(e.getPlayer().getUniqueId())) {
 			petsInv.put(player, new ArrayList<ValidPet>());
-		} else {
+		}/* else {
 			ArrayList<ValidPet> list = new ArrayList<ValidPet>();
 			list.add(new ValidPet(Pets.FIRE_DEMON,69));
+			list.add(new ValidPet(Pets.RAINBOW_PEPE,69));
 			petsInv.put(player, list);
-		}
+		}*/
+		
+	
 		
 
 	}
