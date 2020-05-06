@@ -25,7 +25,7 @@ public class RightClickEvent implements Listener{
 			Player player = e.getPlayer();
 			ItemStack item = player.getInventory().getItemInMainHand();
 			if (item != null && item.getType().equals(Material.PLAYER_HEAD) && item.getItemMeta().hasLore()) {
-				if (item.getItemMeta().getLore().size() == 4) {
+				if (item.getItemMeta().getLore().size() == 8) {
 					if (Main.petsInv.get(player.getUniqueId()).size() < 28) {
 						String[] petData = HiddenStringUtils.extractHiddenString(item.getItemMeta().getLore().get(1)).split("-");
 						ValidPet pet = new ValidPet(PetType.valueOf(petData[0]), Integer.valueOf(petData[1]));

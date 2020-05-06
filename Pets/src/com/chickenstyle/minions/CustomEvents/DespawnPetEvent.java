@@ -39,10 +39,12 @@ public class DespawnPetEvent extends Event{
 		return pet.getTier();
 	}
 	
-	
-	@Override
 	public HandlerList getHandlers() {
 		return HANDLERS;
 	}
+	
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
 
 }

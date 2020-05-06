@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.chickenstyle.minions.Enums.Tier;
+import com.chickenstyle.minions.PetUtils.RandomString;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
@@ -98,8 +99,11 @@ public class Utils {
         return skull;
     }
     
-    public static String formula(int chance,int level,Tier tier) {
+    public static double formula(int chance,int level,Tier tier) {
     	double number = 0;
+    	if (level == 1) {
+    		return chance;
+    	}
     	switch (tier) {
     	case COMMON:
     		number =  chance + (level * 0.1);
@@ -111,8 +115,26 @@ public class Utils {
     		number = chance + (level * 1);
     	}
     	number = Double.parseDouble(new DecimalFormat("##.##").format(number));
-    	return number + "%";
+    	return number;
     }
+    
+    public static ItemStack createPetItem(ValidPet pet) {
+		ItemStack skull = createCustomSkull(pet.getName(), pet.getType().getSkin());
+		SkullMeta meta = (SkullMeta) skull.getItemMeta();
+		meta.setDisplayName(Utils.Color(pet.getName()));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(Utils.Color("&7&lRarity: ") + pet.getTier().getName());
+		lore.add(HiddenStringUtils.encodeString(pet.toString()));
+		lore.add(Utils.Color("&7&lLevel: " + pet.getLevel()));
+		lore.add(HiddenStringUtils.encodeString(new RandomString(10).nextString()));
+		for (String str:getDescription(pet)) {
+			lore.add(str);
+		}
+		meta.setLore(lore);
+		skull.setItemMeta(meta);
+		return skull;
+    }
+    
     
     public static ItemStack createCustomSkull(String displayName, String texture) {
         texture = "http://textures.minecraft.net/texture/" + texture;
@@ -187,7 +209,7 @@ public class Utils {
     	switch (pet.getType()) {    	
     	case ZOMBIE:
     		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&6Increases your damage with sword by &6" + formula(5, level, Tier.COMMON)));
+    		lore.add(Color("&6Increases your damage with sword by &6" + formula(5, level, Tier.COMMON) + "%!"));
     		lore.add(Color("&6"));
     		lore.add(Color("&6"));
     	break;
@@ -208,14 +230,14 @@ public class Utils {
     	
     	case SKELETON:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&6Increases your damage with bow by &6" + formula(5, level, Tier.COMMON)));
+    		lore.add(Color("&6Increases your damage with bow by &6" + formula(5, level, Tier.COMMON) + "%!"));
     		lore.add(Color("&6"));
     		lore.add(Color("&6"));
     	break;
     	
     	case WOLF:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&aIncreases your damage again mobs (not players) by " + formula(7, level, Tier.RARE)));
+    		lore.add(Color("&aIncreases your damage again mobs (not players) by " + formula(7, level, Tier.RARE) + "%!"));
     		lore.add(Color("&a"));
     		lore.add(Color("&a"));
     	break;
@@ -223,7 +245,7 @@ public class Utils {
     	case MR_PENGUIN:
        		lore.add(Color("&7Abilities:"));
     		lore.add(Color("&aGives you speed 1 when standing on ice!"));
-    		lore.add(Color("&aGives defence effect!"));
+    		lore.add(Color("&aGives defence 1 effect!"));
     		lore.add(Color("&a"));
     	break;
     	
@@ -236,79 +258,79 @@ public class Utils {
     	
     	case PUFFERFISH:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aGives under water breath effect!"));
+    		lore.add(Color("&6" + formula(10, level, Tier.RARE) + "% &ato apply poisen effect on attacked enemy!" ));
     		lore.add(Color("&a"));
     	break;
     	
     	case SILVERFISH:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aGives haste 2 effect!"));
+    		lore.add(Color("&6" + formula(5, level, Tier.RARE) + "% &achance to double drop from ores!"));
     		lore.add(Color("&a"));
     	break;
     	
     	case GODZILLA:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aGives defence 1 effect!"));
+    		lore.add(Color("&6" + formula(10, level, Tier.RARE) + "% &achance to launch attacked enetity into air!"));
     		lore.add(Color("&a"));
     	break;
     	
     	case MYSTERY_MAGMA_SLIME:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aGives fire resistance effect!"));
+    		lore.add(Color("&aGives jump boost 1!"));
+    		lore.add(Color("&aIncreases your health by &6" + formula(10, level, Tier.EPIC) + "%!"));
     	break;
     	
     	case WITHER_SKELETON:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aGives immune to wither effect!"));
+    		lore.add(Color("&6" + formula(15, level, Tier.EPIC) + "% &ato apply wither effect on attacked enemy!"));
     		lore.add(Color("&a"));
     	break;
     	
     	case PIKACHU:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aGives speed 1 effect!"));
+    		lore.add(Color("&6" + formula(10, level, Tier.EPIC) + "% &ato strike a lighting on the attacked enemy!"));
     		lore.add(Color("&a"));
     	break;
     	
     	case REAPER:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("Increases your damage by &6" + formula(10, level, Tier.LEGENDARY) + "%!"));
+    		lore.add(Color("&aHave &6" +formula(5, level, Tier.LEGENDARY) + "% &a to cancel death and give you 10 hearts!"));
     		lore.add(Color("&a"));
     	break;
     	
     	case RAINBOW_PEPE:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aUSELESS"));
+    		lore.add(Color("&aBUT"));
+    		lore.add(Color("&aIt looks cool"));
     	break;
     	
     	case VAMPIRE:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aRight click to get invisibility and speed 1 for 7 seconds!"));
+    		lore.add(Color("&aEvery attack gives 1 heart!"));
     		lore.add(Color("&a"));
     	break;
     	
     	case FIRE_DEMON:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aGives fire resistance effect!"));
+    		lore.add(Color("&aIncreases your damage by &6" + formula(10, level, Tier.LEGENDARY) + "%!"));
+    		lore.add(Color("&aRight click to launch a fireball!"));
     	break;
     	
     	case WITHER_SKELETON_KING:
        		lore.add(Color("&7Abilities:"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
-    		lore.add(Color("&a"));
+    		lore.add(Color("&aImmune to wither effect!"));
+    		lore.add(Color("&aPlaces wither effect on attacked enemy!"));
+    		lore.add(Color("&aRight click to launch a wither skeleton head!"));
     	break;
     	
     	default:

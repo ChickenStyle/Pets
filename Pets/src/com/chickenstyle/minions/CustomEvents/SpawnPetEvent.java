@@ -38,8 +38,11 @@ public class SpawnPetEvent extends Event{
 		return pet.getTier();
 	}
 	
-	@Override
 	public HandlerList getHandlers() {
 		return HANDLERS;
 	}
+	
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
 }

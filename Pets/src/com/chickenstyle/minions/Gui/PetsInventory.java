@@ -8,12 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import com.chickenstyle.minions.HiddenStringUtils;
 import com.chickenstyle.minions.Utils;
 import com.chickenstyle.minions.ValidPet;
-import com.chickenstyle.minions.PetUtils.RandomString;
 
 public class PetsInventory {
 	public PetsInventory(Player player,ArrayList<ValidPet> list) {
@@ -74,17 +71,7 @@ public class PetsInventory {
 		
 		if (!list.isEmpty() && list != null) {
 			for (ValidPet pet:list) {
-				ItemStack skull = Utils.createCustomSkull(pet.getName(), pet.getType().getSkin());
-				SkullMeta meta = (SkullMeta) skull.getItemMeta();
-				meta.setDisplayName(Utils.Color(pet.getName()));
-				ArrayList<String> lore = new ArrayList<String>();
-				lore.add(Utils.Color("&7&lRarity: ") + pet.getTier().getName());
-				lore.add(HiddenStringUtils.encodeString(pet.toString()));
-				lore.add(Utils.Color("&7&lLevel: " + pet.getLevel()));
-				lore.add(HiddenStringUtils.encodeString(new RandomString(10).nextString()));
-				meta.setLore(lore);
-				skull.setItemMeta(meta);
-				gui.addItem(skull);
+				gui.addItem(Utils.createPetItem(pet));
 			}
 		}
 		

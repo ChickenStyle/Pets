@@ -10,12 +10,11 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 
-import com.chickenstyle.minions.HiddenStringUtils;
 import com.chickenstyle.minions.Utils;
+import com.chickenstyle.minions.ValidPet;
 import com.chickenstyle.minions.Enums.PetType;
 import com.chickenstyle.minions.Enums.Tier;
 
@@ -59,7 +58,7 @@ public class CrateAnimation extends BukkitRunnable {
 				stand.getWorld().spawnParticle(Particle.TOTEM,stand.getLocation().clone().add(0,1,0),250,0,0,0,0.2);
 				ArrayList<PetType> petsList = Tier.getPetsByTier(tier);
 				Random ran = new Random();
-				pet = petsList.get(ran.nextInt(petsList.size() - 1));
+				pet = petsList.get(ran.nextInt(petsList.size()));
 				ItemStack head = Utils.createCustomSkull("123", pet.getSkin());
 				stand.setHelmet(head);
 				stand.setCustomName(Utils.Color(pet.getName()));
@@ -74,17 +73,7 @@ public class CrateAnimation extends BukkitRunnable {
 				newTicks = newTicks + 2;
 			} else {
 				stand.remove();
-				ItemStack skull = Utils.createCustomSkull(pet.getName(), pet.getSkin());
-				SkullMeta meta = (SkullMeta) skull.getItemMeta();
-				meta.setDisplayName(Utils.Color(pet.getName()));
-				ArrayList<String> lore = new ArrayList<String>();
-				lore.add(Utils.Color("&7&lRarity: ") + pet.getTier().getName());
-				lore.add(HiddenStringUtils.encodeString(pet.toString() + "-1"));
-				lore.add(Utils.Color("&7&lLevel: 1"));
-				lore.add(HiddenStringUtils.encodeString(new RandomString(10).nextString()));
-				meta.setLore(lore);
-				skull.setItemMeta(meta);
-				player.getInventory().addItem(skull);
+				player.getInventory().addItem(Utils.createPetItem(new ValidPet(pet,1)));
 				stand.getWorld().spawnParticle(Particle.TOTEM,stand.getLocation().clone().add(0,1,0),250,0,0,0,0.2);
 				player.playSound(player.getLocation(), Sound.BLOCK_CHEST_CLOSE, 1f, 1f);
 				cancel();

@@ -21,7 +21,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.chickenstyle.minions.Abilities.OnAttackAbilities;
 import com.chickenstyle.minions.Abilities.OnPetDespawn;
 import com.chickenstyle.minions.Abilities.OnPetSpawn;
-import com.chickenstyle.minions.Enums.Tier;
 import com.chickenstyle.minions.Events.GuiClickEvent;
 import com.chickenstyle.minions.Events.OnDeathEvent;
 import com.chickenstyle.minions.Events.OpenCrateEvent;
@@ -102,15 +101,9 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		UUID player = e.getPlayer().getUniqueId();
-		e.getPlayer().getInventory().addItem(Utils.createCustomSkull(Utils.Color(getConfig().getString("legendaryCrateName")), Tier.LEGENDARY.getTexture()));
 		if (!petsInv.containsKey(e.getPlayer().getUniqueId())) {
 			petsInv.put(player, new ArrayList<ValidPet>());
-		}/* else {
-			ArrayList<ValidPet> list = new ArrayList<ValidPet>();
-			list.add(new ValidPet(Pets.FIRE_DEMON,69));
-			list.add(new ValidPet(Pets.RAINBOW_PEPE,69));
-			petsInv.put(player, list);
-		}*/
+		}
 		
 	
 		
