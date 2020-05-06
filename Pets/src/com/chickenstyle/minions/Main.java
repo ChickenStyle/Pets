@@ -104,9 +104,5 @@ public class Main extends JavaPlugin implements Listener {
 		if (!petsInv.containsKey(e.getPlayer().getUniqueId())) {
 			petsInv.put(player, new ArrayList<ValidPet>());
 		}
-		
-	
-		
-
 	}
 }

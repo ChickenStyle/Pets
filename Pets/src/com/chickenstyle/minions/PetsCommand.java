@@ -1,7 +1,5 @@
 package com.chickenstyle.minions;
 
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -10,12 +8,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import com.chickenstyle.minions.Enums.PetType;
 import com.chickenstyle.minions.Enums.Tier;
 import com.chickenstyle.minions.Gui.PetsInventory;
-import com.chickenstyle.minions.PetUtils.RandomString;
 
 public class PetsCommand implements CommandExecutor {
 	// /pets givepet [player] [pet] {level}
@@ -50,17 +46,7 @@ public class PetsCommand implements CommandExecutor {
 								if (PetType.valueOf(args[2].toUpperCase()) != null) {
 									if (Utils.hasAvaliableSlot(target)) {
 										PetType pet = PetType.valueOf(args[2].toUpperCase());
-										ItemStack skull = Utils.createCustomSkull(pet.getName(), pet.getSkin());
-										SkullMeta meta = (SkullMeta) skull.getItemMeta();
-										meta.setDisplayName(Utils.Color(pet.getName()));
-										ArrayList<String> lore = new ArrayList<String>();
-										lore.add(Utils.Color("&7&lRarity: ") + pet.getTier().getName());
-										lore.add(HiddenStringUtils.encodeString(pet.toString() + "-1"));
-										lore.add(Utils.Color("&7&lLevel: 1"));
-										lore.add(HiddenStringUtils.encodeString(new RandomString(10).nextString()));
-										meta.setLore(lore);
-										skull.setItemMeta(meta);
-										target.getInventory().addItem(skull);
+										target.getInventory().addItem(Utils.createPetItem(new ValidPet(pet)));
 										player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 										target.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 										player.sendMessage(Utils.Color("&aYou gave " + pet.getName() + " &apet to " + target.getName() + "&a."));
@@ -131,18 +117,7 @@ public class PetsCommand implements CommandExecutor {
 										if (Integer.valueOf(args[3]) != null) {
 											PetType pet = PetType.valueOf(args[2].toUpperCase());
 											int level = Integer.valueOf(args[3]);
-											ItemStack skull = Utils.createCustomSkull(pet.getName(), pet.getSkin());
-											SkullMeta meta = (SkullMeta) skull.getItemMeta();
-											meta.setDisplayName(Utils.Color(pet.getName()));
-											ArrayList<String> lore = new ArrayList<String>();
-											lore.add(Utils.Color("&7&lRarity: ") + pet.getTier().getName());
-											lore.add(HiddenStringUtils.encodeString(pet.toString() + "-" + level));
-											lore.add(Utils.Color("&7&lLevel: " + level));
-											lore.add(HiddenStringUtils.encodeString(new RandomString(10).nextString()));
-											meta.setLore(lore);
-											skull.setItemMeta(meta);
-											target.getInventory().addItem(skull);
-											
+											target.getInventory().addItem(Utils.createPetItem(new ValidPet(pet,level)));
 											player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 											target.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 											player.sendMessage(Utils.Color("&aYou gave " + pet.getName() + " &apet,&6&lLevel " + level + " &ato " + target.getName() + "&a."));
