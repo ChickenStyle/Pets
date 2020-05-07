@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import com.chickenstyle.minions.Enums.PetType;
 import com.chickenstyle.minions.Enums.Tier;
 import com.chickenstyle.minions.Gui.PetsInventory;
+import com.chickenstyle.minions.Gui.WikiGui;
 
 public class PetsCommand implements CommandExecutor {
 	// /pets givepet [player] [pet] {level}
@@ -27,7 +28,9 @@ public class PetsCommand implements CommandExecutor {
 			
 			case 1:
 			case 2:
-				player.sendMessage(Utils.Color("&cInvalid Usage!"));
+				if (args[0].equalsIgnoreCase("wiki")) {
+					new WikiGui(player);
+				}
 			break;
 			
 			case 3:

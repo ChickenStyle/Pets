@@ -16,9 +16,12 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 
 import com.chickenstyle.minions.Abilities.OnAttackAbilities;
+import com.chickenstyle.minions.Abilities.OnMove;
 import com.chickenstyle.minions.Abilities.OnPetDespawn;
 import com.chickenstyle.minions.Abilities.OnPetSpawn;
 import com.chickenstyle.minions.Events.GuiClickEvent;
@@ -45,6 +48,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new OnAttackAbilities(), this);
 		Bukkit.getPluginManager().registerEvents(new OnPetSpawn(), this);
 		Bukkit.getPluginManager().registerEvents(new OnPetDespawn(), this);
+		Bukkit.getPluginManager().registerEvents(new OnMove(), this);
 		
 		
 		// Default Config
@@ -98,6 +102,7 @@ public class Main extends JavaPlugin implements Listener {
 		return Main.getPlugin(Main.class);
 	}
 
+	// Adding empty list
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		UUID player = e.getPlayer().getUniqueId();
@@ -105,4 +110,22 @@ public class Main extends JavaPlugin implements Listener {
 			petsInv.put(player, new ArrayList<ValidPet>());
 		}
 	}
+	
+	
+	//Removing pet on quit
+	@EventHandler
+	public void onPlayerLeave(PlayerQuitEvent e){
+		UUID player = e.getPlayer().getUniqueId();
+			if (spawnedPet.containsKey(player)) {
+				spawnedPet.remove(player);
+				stands.get(player).remove();
+				Bukkit.getScheduler().cancelTask(taskID.get(player));
+				stands.remove(player);
+				taskID.remove(player);
+				for (PotionEffect effect:e.getPlayer().getActivePotionEffects()) {
+					e.getPlayer().removePotionEffect(effect.getType());
+				}
+			}
+	}
+
 }

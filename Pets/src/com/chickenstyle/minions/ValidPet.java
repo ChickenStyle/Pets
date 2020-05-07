@@ -18,7 +18,7 @@ public class ValidPet {
 	}
 	public ValidPet(PetType pet){
 		this.pet = pet;
-		this.level = 1;
+		this.level = 0;
 	}
 
 	public PetType getType() {

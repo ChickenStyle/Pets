@@ -109,6 +109,8 @@ public class GuiClickEvent implements Listener {
 					clickedInv.setItem(slot, Utils.disabledDye());
 				}
 			}
+		} else if (e.getView().getTitle().equals(Utils.Color("&7Available Max Level Pets"))) {
+			e.setCancelled(true);
 		}
 	}
 	

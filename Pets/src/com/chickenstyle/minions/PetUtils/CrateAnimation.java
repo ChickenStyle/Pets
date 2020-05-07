@@ -73,7 +73,7 @@ public class CrateAnimation extends BukkitRunnable {
 				newTicks = newTicks + 2;
 			} else {
 				stand.remove();
-				player.getInventory().addItem(Utils.createPetItem(new ValidPet(pet,1)));
+				player.getInventory().addItem(Utils.createPetItem(new ValidPet(pet)));
 				stand.getWorld().spawnParticle(Particle.TOTEM,stand.getLocation().clone().add(0,1,0),250,0,0,0,0.2);
 				player.playSound(player.getLocation(), Sound.BLOCK_CHEST_CLOSE, 1f, 1f);
 				cancel();
