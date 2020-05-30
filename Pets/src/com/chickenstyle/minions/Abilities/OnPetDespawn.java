@@ -29,12 +29,17 @@ public class OnPetDespawn implements Listener{
 			player.removePotionEffect(PotionEffectType.FAST_DIGGING);
 		break;
 		
+		case MR_PENGUIN:
+			player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+		break;
+		
 		case GODZILLA:
 			player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
 		break;
 		
 		case MYSTERY_MAGMA_SLIME:
 			player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+			player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
 		break;
 		
 		case FIRE_DEMON:

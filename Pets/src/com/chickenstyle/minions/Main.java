@@ -13,17 +13,21 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.chickenstyle.minions.Abilities.OnAttackAbilities;
+import com.chickenstyle.minions.Abilities.OnBlockBreak;
+import com.chickenstyle.minions.Abilities.OnEat;
 import com.chickenstyle.minions.Abilities.OnMove;
 import com.chickenstyle.minions.Abilities.OnPetDespawn;
 import com.chickenstyle.minions.Abilities.OnPetSpawn;
+import com.chickenstyle.minions.Abilities.OnRightClick;
 import com.chickenstyle.minions.Events.GuiClickEvent;
 import com.chickenstyle.minions.Events.OnDeathEvent;
 import com.chickenstyle.minions.Events.OpenCrateEvent;
@@ -49,6 +53,9 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new OnPetSpawn(), this);
 		Bukkit.getPluginManager().registerEvents(new OnPetDespawn(), this);
 		Bukkit.getPluginManager().registerEvents(new OnMove(), this);
+		Bukkit.getPluginManager().registerEvents(new OnRightClick(), this);
+		Bukkit.getPluginManager().registerEvents(new OnEat(), this);
+		Bukkit.getPluginManager().registerEvents(new OnBlockBreak(), this);
 		
 		
 		// Default Config
@@ -77,6 +84,47 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
+		for (Player player:getServer().getOnlinePlayers()) {
+			if (Main.spawnedPet.containsKey(player.getUniqueId())) {
+				switch (Main.spawnedPet.get(player.getUniqueId()).getType()) {
+				case RABBIT:
+					player.removePotionEffect(PotionEffectType.SPEED);
+					player.removePotionEffect(PotionEffectType.FAST_DIGGING);
+				break;
+				
+				case SQUID:
+					player.removePotionEffect(PotionEffectType.WATER_BREATHING);
+				break;
+				
+				case PUFFERFISH:
+					player.removePotionEffect(PotionEffectType.WATER_BREATHING);
+				break;
+				
+				case SILVERFISH:
+					player.removePotionEffect(PotionEffectType.FAST_DIGGING);
+				break;
+				
+				case MR_PENGUIN:
+					player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				break;
+				
+				case GODZILLA:
+					player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				break;
+				
+				case MYSTERY_MAGMA_SLIME:
+					player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+					player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				break;
+				
+				case FIRE_DEMON:
+					player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				break;
+				default:
+				}
+			}
+		}
+		
 		//Saving hashmap
 		try {
 			Writer writer = new FileWriter(getDataFolder() + "/UserData.json");
@@ -122,9 +170,45 @@ public class Main extends JavaPlugin implements Listener {
 				Bukkit.getScheduler().cancelTask(taskID.get(player));
 				stands.remove(player);
 				taskID.remove(player);
-				for (PotionEffect effect:e.getPlayer().getActivePotionEffects()) {
-					e.getPlayer().removePotionEffect(effect.getType());
-				}
+					if (Main.spawnedPet.containsKey(player)) {
+						switch (Main.spawnedPet.get(player).getType()) {
+						case RABBIT:
+							e.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+							e.getPlayer().removePotionEffect(PotionEffectType.FAST_DIGGING);
+						break;
+						
+						case SQUID:
+							e.getPlayer().removePotionEffect(PotionEffectType.WATER_BREATHING);
+						break;
+						
+						case PUFFERFISH:
+							e.getPlayer().removePotionEffect(PotionEffectType.WATER_BREATHING);
+						break;
+						
+						case SILVERFISH:
+							e.getPlayer().removePotionEffect(PotionEffectType.FAST_DIGGING);
+						break;
+						
+						case MR_PENGUIN:
+							e.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+						break;
+						
+						case GODZILLA:
+							e.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+						break;
+						
+						case MYSTERY_MAGMA_SLIME:
+							e.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+							e.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+						break;
+						
+						case FIRE_DEMON:
+							e.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+						break;
+						default:
+						}
+					}
+			
 			}
 	}
 

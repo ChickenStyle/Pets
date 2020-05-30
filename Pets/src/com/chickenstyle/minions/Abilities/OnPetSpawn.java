@@ -30,12 +30,17 @@ public class OnPetSpawn implements Listener {
 			player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, 1));
 		break;
 		
+		case MR_PENGUIN:
+			player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0));
+		break;
+		
 		case GODZILLA:
 			player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0));
 		break;
 		
 		case MYSTERY_MAGMA_SLIME:
 			player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, Integer.MAX_VALUE, 1));
 		break;
 		
 		case FIRE_DEMON:

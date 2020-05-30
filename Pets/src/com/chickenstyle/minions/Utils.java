@@ -1,7 +1,6 @@
 package com.chickenstyle.minions;
 
 import java.lang.reflect.Field;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -23,6 +22,14 @@ import com.mojang.authlib.properties.Property;
 public class Utils {
 	public static String Color(String text) {
 		return ChatColor.translateAlternateColorCodes('&', text);
+	}
+	
+	public static ItemStack createItemStack(Material mat,String name,int amount) {
+		ItemStack item = new ItemStack(mat,amount);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(Color(name));
+		item.setItemMeta(meta);
+		return item;
 	}
 	
 	public static ItemStack disabledDye() {
@@ -104,14 +111,23 @@ public class Utils {
     	switch (tier) {
     	case COMMON:
     		number =  chance + (level * 0.1);
+    	break;
+    	
     	case RARE:
     		number = chance + (level * 0.28);
+    	break;
+    	
     	case EPIC:
     		number = chance + (level * 0.5);
+    	break;
+    	
     	case LEGENDARY:
     		number = chance + (level * 1);
+    	break;
+    	
     	}
-    	number = Double.parseDouble(new DecimalFormat("##.##").format(number));
+    	number = (Math.round(number * 100))/100.0;
+
     	return number;
     }
     
@@ -234,7 +250,7 @@ public class Utils {
     	
     	case WOLF:
        		lore.add(Color("&7&lAbilities:"));
-    		lore.add(Color("&7Increases your damage against Monsters by &6" + formula(7, level, Tier.RARE) + "%!"));
+    		lore.add(Color("&7Increases your damage against Monsters by &6" + formula(7, level, Tier.COMMON) + "%!"));
     		lore.add(Color("&7"));
     		lore.add(Color("&7"));
     	break;
@@ -278,7 +294,7 @@ public class Utils {
        		lore.add(Color("&7&lAbilities:"));
     		lore.add(Color("&7Gives fire resistance effect!"));
     		lore.add(Color("&7Gives jump boost 1!"));
-    		lore.add(Color("&7Increases your health by &6" + formula(10, level, Tier.EPIC) + "%!"));
+    		lore.add(Color("&7Gives health boost 2!"));
     	break;
     	
     	case WITHER_SKELETON:
@@ -311,7 +327,7 @@ public class Utils {
     	
     	case VAMPIRE:
        		lore.add(Color("&7&lAbilities:"));
-    		lore.add(Color("&7Right click to get invisibility and speed 1 for 7 seconds!"));
+    		lore.add(Color("&7Right click to get invisibility and speed 1 for 7 seconds while holding a sword!"));
     		lore.add(Color("&7Regen &6" + formula(0, level, Tier.LEGENDARY) + "% &7of your health on every attack!"));
     		lore.add(Color("&7"));
     	break;
@@ -319,15 +335,22 @@ public class Utils {
     	case FIRE_DEMON:
        		lore.add(Color("&7&lAbilities:"));
     		lore.add(Color("&7Gives fire resistance effect!"));
-    		lore.add(Color("&7Increases your damage by &7" + formula(10, level, Tier.LEGENDARY) + "%!"));
-    		lore.add(Color("&7Right click to launch a fireball!"));
+    		lore.add(Color("&7Increases your damage by &6" + formula(10, level, Tier.LEGENDARY) + "%!"));
+    		lore.add(Color("&7Right click to launch a fireball while holding a sword!"));
     	break;
     	
     	case WITHER_SKELETON_KING:
        		lore.add(Color("&7&lAbilities:"));
     		lore.add(Color("&7Immune to wither effect!"));
     		lore.add(Color("&7Places wither effect on attacked enemy for 10 seconds!"));
-    		lore.add(Color("&7Right click to launch a wither skeleton head!"));
+    		lore.add(Color("&7Right click to launch a wither skeleton head while holding a sword!"));
+    	break;
+    	
+    	case ENDER_KNIGHT:
+       		lore.add(Color("&7&lAbilities:"));
+    		lore.add(Color("&7Enderman wont agro on you!"));
+    		lore.add(Color("&7Right click to teleport 8 blocks forward while holding a sword!"));
+    		lore.add(Color("&7Increases your damage by &6" + formula(10, level, Tier.LEGENDARY) + "%!"));
     	break;
     	
     	default:

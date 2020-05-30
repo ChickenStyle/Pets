@@ -2,6 +2,7 @@ package com.chickenstyle.minions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,6 +31,11 @@ public class PetsCommand implements CommandExecutor {
 			case 2:
 				if (args[0].equalsIgnoreCase("wiki")) {
 					new WikiGui(player);
+				}
+				if (args[0].equalsIgnoreCase("getupgarder")) {
+					if (player.hasPermission("pets.admin")) {
+						player.getInventory().addItem(Utils.createItemStack(Material.ENCHANTING_TABLE, "&6Pet Upgrader!", 1));
+					}
 				}
 			break;
 			

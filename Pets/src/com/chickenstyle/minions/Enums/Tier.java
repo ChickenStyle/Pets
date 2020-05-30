@@ -28,39 +28,41 @@ public enum Tier {
 	
 	static public ArrayList<PetType> getCommons(){
 		ArrayList<PetType> list = new ArrayList<PetType>();
-		list.add(PetType.ZOMBIE);
-		list.add(PetType.RABBIT);
-		list.add(PetType.SQUID);
-		list.add(PetType.SKELETON);
-		list.add(PetType.WOLF);
+		for (PetType pet:PetType.values()) {
+			if (pet.getTier().equals(Tier.COMMON)) {
+				list.add(pet);
+			}
+		}
 		return list;
 	}
 	
 	static public ArrayList<PetType> getRares(){
 		ArrayList<PetType> list = new ArrayList<PetType>();
-		list.add(PetType.PUFFERFISH);
-		list.add(PetType.MR_PENGUIN);
-		list.add(PetType.GARFIELD);
-		list.add(PetType.SILVERFISH);
-		list.add(PetType.GODZILLA);
+		for (PetType pet:PetType.values()) {
+			if (pet.getTier().equals(Tier.RARE)) {
+				list.add(pet);
+			}
+		}
 		return list;
 	}
 	
 	static public ArrayList<PetType> getEpics(){
 		ArrayList<PetType> list = new ArrayList<PetType>();
-		list.add(PetType.MYSTERY_MAGMA_SLIME);
-		list.add(PetType.PIKACHU);
-		list.add(PetType.WITHER_SKELETON);
+		for (PetType pet:PetType.values()) {
+			if (pet.getTier().equals(Tier.EPIC)) {
+				list.add(pet);
+			}
+		}
 		return list;
 	}
 	
 	static public ArrayList<PetType> getLegendaries(){
 		ArrayList<PetType> list = new ArrayList<PetType>();
-		list.add(PetType.REAPER);
-		list.add(PetType.RAINBOW_PEPE);
-		list.add(PetType.WITHER_SKELETON_KING);
-		list.add(PetType.VAMPIRE);
-		list.add(PetType.FIRE_DEMON);
+		for (PetType pet:PetType.values()) {
+			if (pet.getTier().equals(Tier.LEGENDARY)) {
+				list.add(pet);
+			}
+		}
 		return list;
 	}
 	
